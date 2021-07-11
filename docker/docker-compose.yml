@@ -1,0 +1,44 @@
+version: "3.4"
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=url_shortener_development
+    ports:
+      - "3306:3306"
+    networks:
+      - url-shortener
+    volumes:
+      - ./volume/mysql:/var/lib/mysql
+  redis:
+    image: redis:6.2.4
+    ports:
+      - "6379:6379"
+    networks:
+      - url-shortener
+  url-shortener:
+    build:
+      context: ../
+    image: url-shortener
+    restart: on-failure:5
+    ports:
+      - "80:80"
+    working_dir: /build
+    command: -rest_host=http://localhost -rest_port=80 -redis_addr=docker_redis_1:6379
+    entrypoint:
+      - /build/url-shortener
+    environment:
+      - MYSQL_CONN_STR=tcp(docker_mysql_1:3306)/url_shortener_development?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=true
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+    stdin_open: true
+    tty: true
+    networks:
+      - url-shortener
+    depends_on:
+      - redis
+      - mysql
+networks:
+  url-shortener:
+    driver: bridge
