@@ -14,13 +14,13 @@ type URLShortener struct {
 	mock.Mock
 }
 
-// Load provides a mock function with given fields: id
-func (_m *URLShortener) Load(id string) (*dao.ShortLink, error) {
-	ret := _m.Called(id)
+// Load provides a mock function with given fields: urlID
+func (_m *URLShortener) Load(urlID string) (*dao.ShortLink, error) {
+	ret := _m.Called(urlID)
 
 	var r0 *dao.ShortLink
 	if rf, ok := ret.Get(0).(func(string) *dao.ShortLink); ok {
-		r0 = rf(id)
+		r0 = rf(urlID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*dao.ShortLink)
@@ -29,7 +29,7 @@ func (_m *URLShortener) Load(id string) (*dao.ShortLink, error) {
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(string) error); ok {
-		r1 = rf(id)
+		r1 = rf(urlID)
 	} else {
 		r1 = ret.Error(1)
 	}

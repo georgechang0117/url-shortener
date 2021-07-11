@@ -9,5 +9,5 @@ import (
 // URLShortener defines interface of URL shortener operations.
 type URLShortener interface {
 	Upload(url string, expireAt time.Time) (*dao.ShortLink, error)
-	Load(id string) (*dao.ShortLink, error)
+	Load(urlID string) (*dao.ShortLink, error)
 }
