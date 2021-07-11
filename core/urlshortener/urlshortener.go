@@ -2,7 +2,6 @@ package urlshortener
 
 import (
 	"encoding/json"
-	"errors"
 	"math/rand"
 	"time"
 
@@ -21,7 +20,6 @@ const (
 )
 
 var (
-	errNotFound      = errors.New("db record not found")
 	defaultCacheTTL  = 24 * time.Hour
 	cacheRandMax     = 5
 	notFoundCacheTTL = 1 * time.Minute
